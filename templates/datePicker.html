@@ -1,0 +1,81 @@
+{% extends 'bootstrap/base.html' %}
+{% block scripts %}
+  {{ super() }}
+  {{ datepicker.loader() }} {# to load jQuery-ui #}
+  {{ datepicker.picker(id=".dp",dateFormat='dd/mm/yy', btnsId='.btnId')}}
+{% endblock %}
+{% block content %}
+<head>
+		<style>
+			/* Style the tab */
+			.tab {
+				overflow: hidden;
+				border: 0px solid #ccc;
+				background-color: #0b4d8b;
+			}
+
+			/* Style the buttons that are used to open the tab content */
+			.tab button {
+				background-color: inherit;
+				float: left;
+				border: none;
+				outline: none;
+				cursor: pointer;
+				padding: 14px 16px;
+				transition: 0.3s;
+			}
+
+			/* Change background color of buttons on hover */
+			.tab button:hover {
+				background-color: rgba(255, 255, 255, 0.123);
+			}
+
+			/* Create an active/current tablink class */
+			.tab button.active {
+				background-color: rgba(255, 255, 255, 0.123);
+			}
+
+			/* Style the tab content */
+			.tabcontent {
+				display: none;
+				padding: 6px 12px;
+				border: 1px solid #ccc;
+				border-top: none;
+			}
+		</style>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+		{% block head %}{% endblock %}
+        <title>E-Health System!</title>
+</head>
+<div class="tab">
+    <button class="tablinks" onclick="location.href='/';"><div class="text-light">Home</div></button>
+    <button class="tablinks" onclick="location.href='/search';"><div class="text-light">Search</div></button>
+    <button class="tablinks" onclick="location.href='/currentA';"><div class="text-light">Current Appointments</div></button>
+    <button class="tablinks" onclick="location.href='/myHistory';"><div class="text-light">My History</div></button>
+    <button class ="tablinks" onclick= "location.href='/myProfile';"><div class="text-light">My Profile </div> </button>
+    <button class="tablinks" onclick="location.href='/logout';"><div class="text-light">Logout</div></button>
+</div>
+<div style="padding: 50px">
+    <h3> Booking with {{doctor}} at {{centre}}</h3><br>
+    <h6>Please choose date:</h6>
+
+    <form method="post">
+        <input name= "date" type="text" class="form-control dp" required />
+        <div style="margin: 10px 0px">
+            <input type="submit" value="Submit">
+        </div>
+    </form>
+    <br>
+    {%if not time and searched%}
+    <h6> Please a choose different day, no times available</h6>
+    {%endif%}
+    {%if time%}
+    <h6> Please click time to book</h6>
+    {%for i in hours %}
+    <h6><a href = {{ url_for('bookConfirmation',centre_name=centre,full_name=doctor,date=date,time=i )}}>{{i.hour}}:{%if i.minute==0%}00{%else%}{{i.minute}}{%endif%}</a></h6>
+
+    {%endfor%}
+    {%endif%}
+    {% endblock %}
+
+</div>

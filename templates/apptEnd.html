@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block head %}
+<title>
+    Appointment End
+</title>
+
+{% endblock %}
+
+{% block content %}
+<!-- Tab Menu -->
+
+{%if current_user.is_provider==False%}
+    <div class="tab">
+        <button class="tablinks" onclick="location.href='/';"><div class="text-light">Home</div></button>
+        <button class="tablinks" onclick="location.href='/search';"><div class="text-light">Search</div></button>
+        <button class="tablinks" onclick="location.href='/currentA';"><div class="text-light">Current Appointments</div></button>
+        <button class="tablinks" onclick="location.href='/myHistory';"><div class="text-light">My History</div></button>
+        <button class ="tablinks" onclick= "location.href='/myProfile';"><div class="text-light">My Profile </div> </button>
+        <button class="tablinks" onclick="location.href='/logout';"><div class="text-light">Logout</div></button>
+    </div>
+{%elif current_user.is_provider==True%}
+    <div class="tab">
+        <button class="tablinks" onclick="location.href='/';"><div class="text-light">Home</div></button>
+        <button class="tablinks" onclick="location.href='/currentA';"><div class="text-light">Current Appointments</div></button>
+        <button class ="tablinks" onclick= "location.href='/myProfile';"><div class="text-light">My Profile </div> </button>
+        <button class="tablinks" onclick="location.href='/logout';"><div class="text-light">Logout</div></button>
+    </div>
+{%endif%}
+
+
+<div style="padding: 50px">
+
+<h2>Appointment with {{appointment.patient.full_name}}</h2>
+
+<h5>Centre: {{appointment.centre.centre_name}}</h5>
+<h5>Date: {{appointment.date}}</h5>
+<h5>Time: {{appointment.time}}</h5>
+<br>
+
+<h4> The folowing notes were made</h4>
+{{notes}}
+
+<h4> The following medicine(s) were prescribed</h4>
+{{meds}}
+
+{% endblock %}

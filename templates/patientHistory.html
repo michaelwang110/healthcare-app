@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block head %}
+<title>
+    Patient History
+</title>
+
+{% endblock %}
+
+{% block content %}
+<!-- Tab Menu -->
+{%if current_user.is_provider==False%}
+    <div class="tab">
+        <button class="tablinks" onclick="location.href='/';"><div class="text-light">Home</div></button>
+        <button class="tablinks" onclick="location.href='/search';"><div class="text-light">Search</div></button>
+        <button class="tablinks" onclick="location.href='/currentA';"><div class="text-light">Current Appointments</div></button>
+        <button class="tablinks active" onclick="location.href='/myHistory';"><div class="text-light">My History</div></button>
+        <button class ="tablinks" onclick= "location.href='/myProfile';"><div class="text-light">My Profile </div> </button>
+        <button class="tablinks" onclick="location.href='/logout';"><div class="text-light">Logout</div></button>
+    </div>
+{%elif current_user.is_provider==True%}
+    <div class="tab">
+        <button class="tablinks" onclick="location.href='/';"><div class="text-light">Home</div></button>
+        <button class="tablinks" onclick="location.href='/currentA';"><div class="text-light">Current Appointments</div></button>
+        <button class ="tablinks" onclick= "location.href='/myProfile';"><div class="text-light">My Profile </div> </button>
+        <button class="tablinks" onclick="location.href='/logout';"><div class="text-light">Logout</div></button>
+    </div>
+{%endif%}
+<div style="padding: 50px">
+
+{%if appointments|length==0%}
+<h3> No past appointments</h3>
+{%else%}
+<h3> Patient history of {{patient.full_name}}</h3>
+{%endif%}
+
+{%for i in appointments%}
+        <h5>{{i.provider.service}} {{i.provider.full_name}} at {{i.centre.centre_name}} on {{i.date}}</h5>
+        <b>Notes</b>: {{i.notes}}
+        <br>
+        <b>Medication</b>: {{i.medication}}
+        <br>
+    <br>
+
+
+{%endfor%}
+
+
+{% endblock %}

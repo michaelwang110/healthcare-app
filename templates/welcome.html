@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block head %}
+<title>
+    Welcome
+</title>
+
+{% endblock %}
+
+{% block content %}
+<!-- Tab Menu -->
+{% if current_user.is_provider == False %}
+    <div class="tab">
+        <button class="tablinks active" onclick="location.href='/';"><div class="text-light">Home</div></button>
+        <button class="tablinks" onclick="location.href='/search';"><div class="text-light">Search</div></button>
+        <button class="tablinks" onclick="location.href='/currentA';"><div class="text-light">Current Appointments</div></button>
+        <button class="tablinks" onclick="location.href='/myHistory';"><div class="text-light">My History</div></button>
+        <button class ="tablinks" onclick= "location.href='/myProfile';"><div class="text-light">My Profile </div> </button>
+        <button class="tablinks" onclick="location.href='/logout';"><div class="text-light">Logout</div></button>
+    </div>
+
+{% elif current_user.is_provider == True %}
+    <div class="tab">
+        <button class="tablinks active" onclick="location.href='/';"><div class="text-light">Home</div></button>
+        <button class="tablinks" onclick="location.href='/currentA';"><div class="text-light">Current Appointments</div></button>
+        <button class ="tablinks" onclick= "location.href='/myProfile';"><div class="text-light">My Profile </div> </button>
+        <button class="tablinks" onclick="location.href='/logout';"><div class="text-light">Logout</div></button>
+    </div>
+{%endif%}
+<div style="padding: 50px">
+<h2>
+    Welcome to the E-Health System! {%if current_user.is_provider%}Provider{%elif current_user.is_active%}Patient{%else%}Please login below{%endif%} {{current_user.full_name}}
+</h2>
+
+{%if current_user.is_anonymous%}
+<br>
+<form action="{{ url_for('login' )}}" method="POST">
+    Email:<br><input placeholder="Enter email" type="text" name="email" required><br><br>
+    Password:<br><input placeholder="Enter password" type="password" name="password" required><br>
+    <br>
+    <button>Login</button>
+    <br>
+    <br>
+    {%if failed%}
+    <p class="text-danger">Incorrect email and/or password, please try again.</p>
+    {%endif%}
+</form>
+<br/><br/>
+{%endif%}
+
+{% endblock %}

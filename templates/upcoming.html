@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block head %}
+<title>
+    Current Appointments
+</title>
+
+{% endblock %}
+
+{% block content %}
+<!-- Tab Menu -->
+{%if current_user.is_provider==False%}
+    <div class="tab">
+        <button class="tablinks" onclick="location.href='/';"><div class="text-light">Home</div></button>
+        <button class="tablinks" onclick="location.href='/search';"><div class="text-light">Search</div></button>
+        <button class="tablinks active" onclick="location.href='/currentA';"><div class="text-light">Current Appointments</div></button>
+        <button class="tablinks" onclick="location.href='/myHistory';"><div class="text-light">My History</div></button>
+        <button class ="tablinks" onclick= "location.href='/myProfile';"><div class="text-light">My Profile </div> </button>
+        <button class="tablinks" onclick="location.href='/logout';"><div class="text-light">Logout</div></button>
+    </div>
+{%elif current_user.is_provider==True%}
+    <div class="tab">
+        <button class="tablinks" onclick="location.href='/';"><div class="text-light">Home</div></button>
+        <button class="tablinks active" onclick="location.href='/currentA';"><div class="text-light">Current Appointments</div></button>
+        <button class ="tablinks" onclick= "location.href='/myProfile';"><div class="text-light">My Profile </div> </button>
+        <button class="tablinks" onclick="location.href='/logout';"><div class="text-light">Logout</div></button>
+    </div>
+{%endif%}
+<div style="padding: 50px">
+
+{%if current_user.is_provider==False%}
+{%if a|length==0%}
+<h3> No upcoming Appointments</h3>
+{%endif%}
+    {%for i in a%}
+        <li type="disc">
+        {{i.provider.service}} <a href ={{ url_for('profile_provider',full_name=i.provider.full_name) }}>{{i.provider.full_name}}</a> at <a href = {{ url_for('profile_centre',centre_name=i.centre.centre_name)}}>{{i.centre.centre_name}}</a> on {{i.date}} at {%if i.time.hour < 10%}0{{i.time.hour}}{%else%}{{i.time.hour}}{%endif%}:{%if i.time.minute==0%}00{%else%}{{i.time.minute}}{%endif%}
+        <br>Reason: {%if i.visit_reason|length==0%}Not specfied {%else%} {{i.visit_reason}} {%endif%}<br>
+
+    {%endfor%}
+
+{%elif current_user.is_provider==True%}
+{%if a|length==0%}
+<h3> No upcoming Appointments</h3>
+{%endif%}
+    {%for i in a%}
+        <li type="disc">
+        <a href ={{ url_for('history',full_name=i.patient.full_name) }}>{{i.patient.full_name}}</a>  at {{i.centre.centre_name}} on {{i.date}} at {%if i.time.hour < 10%}0{{i.time.hour}}{%else%}{{i.time.hour}}{%endif%}:{%if i.time.minute==0%}00{%else%}{{i.time.minute}}{%endif%}
+            <br>Reason: {%if i.visit_reason|length==0%}Not specfied {%else%} {{i.visit_reason}} {%endif%}<br>
+        <button type="button" onclick="window.location.href='{{ url_for( 'startAppt' , id=i.id ) }}';">Start</button>
+
+        <br>
+
+{%endfor%}
+
+{%endif%}
+
+
+{% endblock %}

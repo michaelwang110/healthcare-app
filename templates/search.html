@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block head %}
+<title>
+    Search
+</title>
+
+{% endblock %}
+
+{% block content %}
+<!-- Tab Menu -->
+<div class="tab">
+    <button class="tablinks" onclick="location.href='/';"><div class="text-light">Home</div></button>
+    <button class="tablinks active" onclick="location.href='/search';"><div class="text-light">Search</div></button>
+    <button class="tablinks" onclick="location.href='/currentA';"><div class="text-light">Current Appointments</div></button>
+    <button class="tablinks" onclick="location.href='/myHistory';"><div class="text-light">My History</div></button>
+    <button class ="tablinks" onclick= "location.href='/myProfile';"><div class="text-light">My Profile </div> </button>
+    <button class="tablinks" onclick="location.href='/logout';"><div class="text-light">Logout</div></button>
+</div>
+<div style="padding: 50px">
+
+<div>
+    <form action="\search" method="post">
+	     <div style="margin: 10px 0px">
+            <h5> Please type in search request:</h5>
+			<input name="search_string" placeholder="To search all enter 'A'" value="" required /><br><br>
+            <input type="radio" name="options" id="option1" value="cName" required> Search Centre By Name </input><br>
+			<input type="radio" name="options" id="option2" value="cSuburb"> Search Centre By Suburb </input><br>
+            <input type="radio" name="options" id="option3" value="pName"> Search Provider By Name </input><br>
+            <input type="radio" name="options" id="option4" value="pService"> Search Provider By Service </input><br>
+            <input type="radio" name="options" id="option5" value="all"> Search All </input><br>
+		</div>
+		<div style="margin: 10px 0px">
+			<button type="submit">Search</button>
+		</div><br>
+	</form>
+</div>
+{%if notfound %}
+<h3>
+No results found, please search again
+</h3>
+
+{%endif%}
+
+{% if found and provider %}
+<h3>
+    Search Results for Providers
+</h3>
+<div>
+    {% for i in search_resultsP %}
+    <br>
+    <a href = {{ url_for('profile_provider',full_name=i.full_name) }}>{{i.full_name}}</a>
+    {{i.service}}
+    {% endfor %}
+</div>
+{% endif %}
+<br>
+{% if found and centre %}
+<h3>
+    Search Results for Centres
+</h3>
+<div>
+    {% for i in search_resultsC %}
+    <br>
+    <a href = {{ url_for('profile_centre',centre_name=i.centre_name) }}>{{i.centre_name}}</a>
+    {{i.suburb}}
+    {% endfor %}
+</div>
+{% endif %}
+
+{% endblock %}

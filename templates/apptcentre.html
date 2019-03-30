@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block head %}
+<title>
+    Appointment Hub
+</title>
+
+{% endblock %}
+
+{% block content %}
+<!-- Tab Menu -->
+
+{%if current_user.is_provider==False%}
+    <div class="tab">
+        <button class="tablinks" onclick="location.href='/';"><div class="text-light">Home</div></button>
+        <button class="tablinks" onclick="location.href='/search';"><div class="text-light">Search</div></button>
+        <button class="tablinks" onclick="location.href='/currentA';"><div class="text-light">Current Appointments</div></button>
+        <button class="tablinks" onclick="location.href='/myHistory';"><div class="text-light">My History</div></button>
+        <button class ="tablinks" onclick= "location.href='/myProfile';"><div class="text-light">My Profile </div> </button>
+        <button class="tablinks" onclick="location.href='/logout';"><div class="text-light">Logout</div></button>
+
+    </div>
+{%elif current_user.is_provider==True%}
+    <div class="tab">
+        <button class="tablinks" onclick="location.href='/';"><div class="text-light">Home</div></button>
+        <button class="tablinks" onclick="location.href='/currentA';"><div class="text-light">Current Appointments</div></button>
+        <button class ="tablinks" onclick= "location.href='/myProfile';"><div class="text-light">My Profile </div> </button>
+        <button class="tablinks" onclick="location.href='/logout';"><div class="text-light">Logout</div></button>
+    </div>
+{%endif%}
+
+
+<div style="padding: 50px">
+
+<h2>Appointment with <a href ={{ url_for('history',full_name=appointment.patient.full_name) }}>{{appointment.patient.full_name}}</a></h2>
+
+<h5>Centre: {{appointment.centre.centre_name}}</h5>
+<h5>Date: {{appointment.date}}</h5>
+<h5>Time: {{appointment.time}}</h5>
+<br>
+<div>
+    <form method="post">
+	     <div style="margin: 10px 0px">
+            <h6> Please make notes of the appointment:</h6>
+			<textarea style="height:100px;width:320px" name="notes" placeholder="Enter any notes" value="" required></textarea><br><br>
+            <h6> Please make notes of any medications prescribed:</h6>
+            <textarea style="height:100px;width:320px" name="meds" placeholder="Enter any medications" value="" required></textarea><br><br>
+		</div>
+		<div style="margin: 10px 0px">
+			<button type="submit">End Appointment</button>
+		</div><br>
+	</form>
+</div>
+
+
+
+
+
+{% endblock %}

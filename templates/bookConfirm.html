@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block head %}
+<title>
+    Booking Confirmation
+</title>
+
+{% endblock %}
+
+{% block content %}
+<!-- Tab Menu -->
+<div class="tab">
+    <button class="tablinks" onclick="location.href='/';"><div class="text-light">Home</div></button>
+    <button class="tablinks" onclick="location.href='/search';"><div class="text-light">Search</div></button>
+    <button class="tablinks" onclick="location.href='/currentA';"><div class="text-light">Current Appointments</div></button>
+    <button class="tablinks" onclick="location.href='/myHistory';"><div class="text-light">My History</div></button>
+    <button class ="tablinks" onclick= "location.href='/myProfile';"><div class="text-light">My Profile </div> </button>
+    <button class="tablinks" onclick="location.href='/logout';"><div class="text-light">Logout</div></button>
+</div>
+<div style="padding: 50px">
+{%if not confirmed%}
+<h3> Booking with {{doctor}} at {{centre}} on {{date}} at {{time}} </h3>
+
+<form method="post">
+    <br><h6>Please enter reason for visit (optional)</h6>
+    <input name= "reason" type="text" placeholder=""/>
+    <div style="margin: 10px 0px">
+        <input type="submit" value="Confirm Booking">
+    </div>
+</form>
+
+{%endif%}
+
+{%if confirmed%}
+<h3> Your booking with {{doctor}} at {{centre}} on {{date}} at {{time}} has been confirmed!</h3>
+
+{%endif%}
+
+{% endblock %}

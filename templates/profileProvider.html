@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block head %}
+<title>
+    Profile Page
+</title>
+
+{% endblock %}
+
+{% block content %}
+<!-- Tab Menu -->
+<div class="tab">
+    <button class="tablinks" onclick="location.href='/';"><div class="text-light">Home</div></button>
+    <button class="tablinks" onclick="location.href='/search';"><div class="text-light">Search</div></button>
+    <button class="tablinks" onclick="location.href='/currentA';"><div class="text-light">Current Appointments</div></button>
+    <button class="tablinks" onclick="location.href='/myHistory';"><div class="text-light">My History</div></button>
+    <button class ="tablinks" onclick= "location.href='/myProfile';"><div class="text-light">My Profile </div> </button>
+    <button class="tablinks" onclick="location.href='/logout';"><div class="text-light">Logout</div></button>
+</div>
+<div style="padding: 50px">
+<h3>
+    {{provider.full_name}}
+</h3>
+Service: {{provider.service}}<br>
+Provider Number: {{provider.provider_number}}<br>
+Phone Number: {{provider.phone_number}}<br>
+Email: {{provider.email}}<br>
+Rating: {%if rating == None%} No ratings so far{%else%} {{rating}}/5 {%endif%}<br>
+
+{%if current_user.is_provider==False%}
+<br>
+Provide rating!
+<form  method="POST">
+    <div >
+            <select name="rating">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+    </div>
+    <div style="margin: 10px 0px">
+        <button type="submit">Rate</button>
+    </div><br>
+</form>
+
+{%endif%}
+
+<br>
+<h4>
+    Centres
+</h4>
+{%for i in centres%}
+<h6><a href = {{ url_for('profile_centre',centre_name=i.centre_name) }}>{{i.centre_name}}</a></h6>
+<button onclick="window.location.href='{{ url_for( 'book' , centre_name=i.centre_name,full_name=provider.full_name ) }}';">Book</button>
+<br>
+<br>
+{% endfor %}
+
+
+{% endblock %}

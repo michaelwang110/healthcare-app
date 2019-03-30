@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="padding: 50px">
+
+<h2>
+    Welcome to the E-Health System! Please login below
+</h2>
+<br>
+<form action="{{ url_for('login' )}}" method="POST">
+    Email:<br><input placeholder="Enter email" type="text" name="email" required><br><br>
+    Password:<br><input placeholder="Enter password" type="password" name="password" required><br>
+    <br>
+    <button>Login</button>
+    <br>
+    <br>
+    {%if failed%}
+    <p class="text-danger">Incorrect email and/or password, please try again.</p>
+    {%endif%}
+</form>
+<br/><br/>
+{% endblock %}

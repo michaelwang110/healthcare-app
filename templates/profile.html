@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block head %}
+<title>
+    Patient Profile
+</title>
+{% endblock %}
+
+{% block content %}
+<!-- Tab Menu -->
+{%if current_user.is_provider==False%}
+    <div class="tab">
+        <button class="tablinks" onclick="location.href='/';"><div class="text-light">Home</div></button>
+        <button class="tablinks" onclick="location.href='/search';"><div class="text-light">Search</div></button>
+        <button class="tablinks " onclick="location.href='/currentA';"><div class="text-light">Current Appointments</div></button>
+        <button class="tablinks" onclick="location.href='/myHistory';"><div class="text-light">My History</div></button>
+        <button class ="tablinks active" onclick= "location.href='/myProfile';"><div class="text-light">My Profile </div> </button>
+        <button class="tablinks" onclick="location.href='/logout';"><div class="text-light">Logout</div></button>
+    </div>
+{%elif current_user.is_provider==True%}
+    <div class="tab">
+        <button class="tablinks" onclick="location.href='/';"><div class="text-light">Home</div></button>
+        <button class="tablinks " onclick="location.href='/currentA';"><div class="text-light">Current Appointments</div></button>
+        <button class ="tablinks active" onclick= "location.href='/myProfile';"><div class="text-light">My Profile </div> </button>
+        <button class="tablinks" onclick="location.href='/logout';"><div class="text-light">Logout</div></button>
+    </div>
+{%endif%}
+<div style="padding: 50px">
+
+{%if current_user.is_provider==true%}
+<br>
+
+<header>
+    <h3> Current personal information </h3>
+</header>
+
+<h5>Name: {{provider.full_name}}</h5>
+<h5>Email: {{provider.email}}</h5>
+<h5>Contact Number: {{provider.phone_number}}</h5>
+<h5>Provider Number: {{provider.provider_number}}</h5>
+<h5>Current rating: {%if rating==None%}No ratings so far {%else%}{{rating}}/5{%endif%}</h5>
+<h5>Associated healthcare centres:</h5>
+<ul>
+{% for i in centres%}
+    <li><a href = {{ url_for('profile_centre',centre_name=i.centre_name) }}>{{i.centre_name}}</a></li>
+    <br>
+{% endfor %}
+</ul>
+<br>
+<body>
+    If your personal information is out of date, you can update it below.
+    <br>
+    <div style="margin: 10px 0px">
+        <form method="POST">
+            Email address:<br>
+            <input type="text" name="email" value="{{provider.email}}"><br>
+            Contact number:<br>
+            <input type="text" name="number" value="{{provider.phone_number}}"><br>
+            Provider Number number:<br>
+            <input type="text" name="Pnumber" value="{{provider.provider_number}}"><br><br>
+            <input type="submit" value="Confirm new details">
+        </form>
+
+    </div>
+</body>
+
+{% endif %}
+
+{%if current_user.is_provider==false%}
+<br>
+<header>
+    <h3> Current personal information </h3>
+</header>
+
+<h5>Name: {{patient.full_name}}</h5>
+<h5>Email: {{patient.email}}</h5>
+<h5>Contact number: {{patient.phone_number}}</h5>
+<h5>Medicare Number: {{patient.medicare}}</h5>
+<body>
+    If your personal information is out of date, you can update it below.
+    <br>
+    <div style="margin: 10px 0px">
+        <form method="post">
+            Email address:<br>
+            <input type="text" name="email" value="{{patient.email}}"><br>
+            Contact number:<br>
+            <input type="text" name="number" value="{{patient.phone_number}}"><br>
+            Medicare number:<br>
+            <input type="text" name="medicare" value="{{patient.medicare}}"><br><br>
+            <input type="submit" value="Confirm new details">
+        </form>
+
+    </div>
+</body>
+
+{% endif %}
+
+
+{% endblock %}
